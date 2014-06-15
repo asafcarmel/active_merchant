@@ -25,7 +25,7 @@ module ActiveMerchant #:nodoc:
         'cvv2_not_checked' => 'X'
       }
 
-      self.test_url = 'https://demo.deepcovelabs.com/realtime/'
+      self.test_url = 'https://demo.pacnetservices.com/realtime/'
       self.live_url = 'https://raven.pacnetservices.com/realtime/'
 
       self.supported_countries = ['US']
@@ -55,6 +55,15 @@ module ActiveMerchant #:nodoc:
         add_currency_code(post, money, options)
         add_creditcard(post, creditcard)
         add_address(post, options)
+        post['PRN'] = @options[:prn]
+
+        commit('cc_debit', money, post)
+      end
+
+      def recurring(money, tracking_number, options = {})
+        post = {}
+        add_currency_code(post, money, options)
+        post['TemplateNumber'] = tracking_number
         post['PRN'] = @options[:prn]
 
         commit('cc_debit', money, post)
