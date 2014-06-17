@@ -50,11 +50,12 @@ module ActiveMerchant #:nodoc:
         commit('cc_preauth', money, post)
       end
 
-      def purchase(money, creditcard, options = {})
+      def secure_purchase(money, creditcard, options = {})
         post = {}
         add_currency_code(post, money, options)
-        add_creditcard(post, creditcard)
+        add_secure_creditcard(post, creditcard)
         add_address(post, options)
+        
         post['PRN'] = @options[:prn]
 
         commit('cc_debit', money, post)
@@ -103,6 +104,12 @@ module ActiveMerchant #:nodoc:
         post['CVV2'] = creditcard.verification_value if creditcard.verification_value
       end
 
+      def add_secure_creditcard(post, creditcard)
+        post['CardNumber'] = creditcard.number
+        post['Expiry'] = creditcard.expiry
+        post['CVV2'] = creditcard.verification_value if creditcard.verification_value
+      end
+      
       def add_currency_code(post, money, options)
         post['Currency'] = options[:currency] || currency(money)
       end
