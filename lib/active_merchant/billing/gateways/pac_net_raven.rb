@@ -55,6 +55,7 @@ module ActiveMerchant #:nodoc:
         add_currency_code(post, money, options)
         add_secure_creditcard(post, creditcard)
         add_address(post, options)
+        add_holder_name(post, options)
         
         post['PRN'] = @options[:prn]
 
@@ -64,6 +65,7 @@ module ActiveMerchant #:nodoc:
       def recurring(money, tracking_number, options = {})
         post = {}
         add_currency_code(post, money, options)
+        add_holder_name(post, options)
         post['TemplateNumber'] = tracking_number
         post['PRN'] = @options[:prn]
 
@@ -108,6 +110,10 @@ module ActiveMerchant #:nodoc:
         post['CardNumber'] = creditcard.number
         post['Expiry'] = creditcard.expiry
         post['CVV2'] = creditcard.verification_value if creditcard.verification_value
+      end
+      
+      def add_holder_name(post, options)
+        post['AccountName'] = options[:holder_name]
       end
       
       def add_currency_code(post, money, options)
