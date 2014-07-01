@@ -55,8 +55,8 @@ module ActiveMerchant #:nodoc:
         add_currency_code(post, money, options)
         add_secure_creditcard(post, creditcard)
         add_address(post, options)
+
         add_holder_name(post, options)
-        
         post['PRN'] = @options[:prn]
 
         commit('cc_debit', money, post)
@@ -122,9 +122,11 @@ module ActiveMerchant #:nodoc:
 
       def add_address(post, options)
         if address = options[:billing_address] || options[:address]
-          post['BillingStreetAddressLineOne']   = address[:address1].to_s
-          post['BillingStreetAddressLineFour']  = address[:address2].to_s
-          post['BillingPostalCode']             = address[:zip].to_s
+          post['BillingStreetAddressLineOne']     = address['address1'].to_s
+          post['BillingStreetAddressLineTwo']     = address['address2'].to_s
+          post['BillingStreetAddressLineThree']   = address['address3'].to_s
+          post['BillingStreetAddressLineFour']    = address['address4'].to_s
+          post['BillingPostalCode']               = address['zip'].to_s
         end
       end
 
