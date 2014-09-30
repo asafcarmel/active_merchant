@@ -49,6 +49,28 @@ class EwayRapidTest < Test::Unit::TestCase
     assert response.test?
   end
 
+  def test_failed_purchase_without_message
+    response = stub_comms do
+      @gateway.purchase(-100, @credit_card)
+    end.respond_with(failed_purchase_response_without_message)
+
+    assert_failure response
+    assert_equal "Do Not Honour", response.message
+    assert_nil response.authorization
+    assert response.test?
+  end
+
+  def test_failed_purchase_with_multiple_messages
+    response = stub_comms do
+      @gateway.purchase(-100, @credit_card)
+    end.respond_with(failed_purchase_response_multiple_messages)
+
+    assert_failure response
+    assert_equal "Invalid Customer Phone,Invalid ShippingAddress Phone", response.message
+    assert_nil response.authorization
+    assert response.test?
+  end
+
   def test_purchase_with_all_options
     response = stub_comms do
       @gateway.purchase(200, @credit_card,
@@ -56,7 +78,7 @@ class EwayRapidTest < Test::Unit::TestCase
         :redirect_url => "http://awesomesauce.com",
         :ip => "0.0.0.0",
         :application_id => "Woohoo",
-        :description => "Description",
+        :description => "The Really Long Description More Than Sixty Four Characters Gets Truncated",
         :order_id => "orderid1",
         :currency => "INR",
         :email => "jim@example.com",
@@ -96,7 +118,7 @@ class EwayRapidTest < Test::Unit::TestCase
       assert_match(%r{"DeviceID":"Woohoo"}, data)
 
       assert_match(%r{"TotalAmount":"200"}, data)
-      assert_match(%r{"InvoiceDescription":"Description"}, data)
+      assert_match(%r{"InvoiceDescription":"The Really Long Description More Than Sixty Four Characters Gets"}, data)
       assert_match(%r{"InvoiceReference":"orderid1"}, data)
       assert_match(%r{"CurrencyCode":"INR"}, data)
 
@@ -169,7 +191,7 @@ class EwayRapidTest < Test::Unit::TestCase
     end.respond_with(failed_capture_response)
 
     assert_failure response
-    assert_equal "V6134", response.message
+    assert_equal "Invalid Auth Transaction ID for Capture/Void", response.message
     assert_equal 0, response.authorization
   end
 
@@ -189,7 +211,7 @@ class EwayRapidTest < Test::Unit::TestCase
     end.respond_with(failed_void_response)
 
     assert_failure response
-    assert_equal "V6134", response.message
+    assert_equal "Invalid Auth Transaction ID for Capture/Void", response.message
     assert_equal 0, response.authorization
   end
 
@@ -246,7 +268,7 @@ class EwayRapidTest < Test::Unit::TestCase
     response = stub_comms do
       @gateway.refund(@amount, '1234567')
     end.check_request do |endpoint, data, headers|
-      assert_match /Transaction\/1234567\/Refund$/, endpoint
+      assert_match %r{Transaction\/1234567\/Refund$}, endpoint
       json = JSON.parse(data)
       assert_equal '100', json['Refund']['TotalAmount']
       assert_equal '1234567', json['Refund']['TransactionID']
@@ -368,6 +390,39 @@ class EwayRapidTest < Test::Unit::TestCase
           "CurrencyCode": "AUD"
         },
         "Errors": null
+      }
+    )
+  end
+
+  def failed_purchase_response_without_message
+    %(
+      {
+        "AuthorisationCode": null,
+        "ResponseCode": "05",
+        "TransactionID": null,
+        "TransactionStatus": null,
+        "TransactionType": "Purchase",
+        "BeagleScore": null,
+        "Verification": null,
+        "Customer": {
+        }
+      }
+    )
+  end
+
+  def failed_purchase_response_multiple_messages
+    %(
+      {
+        "AuthorisationCode": null,
+        "ResponseCode": null,
+        "ResponseMessage": "V6070,V6083",
+        "TransactionID": null,
+        "TransactionStatus": null,
+        "TransactionType": "Purchase",
+        "BeagleScore": null,
+        "Verification": null,
+        "Customer": {
+        }
       }
     )
   end

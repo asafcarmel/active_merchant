@@ -118,7 +118,12 @@ module ActiveMerchant #:nodoc:
         options[:credit_card] = creditcard
         options[:recurring] = 'Initial'
         money = options.delete(:amount) || 100
-        commit(:authorization_check, money, options)
+        # Amex does not support authorization_check
+        if creditcard.brand == 'american_express'
+          commit(:preauthorization, money, options)
+        else
+          commit(:authorization_check, money, options)
+        end
       end
 
       private
@@ -293,13 +298,19 @@ module ActiveMerchant #:nodoc:
         if root = REXML::XPath.first(xml, "#{basepath}/W_JOB")
           parse_response(response, root)
         elsif root = REXML::XPath.first(xml, "//ERROR")
-          parse_error(response, root)
+          parse_error_only_response(response, root)
         else
           response[:Message] = "No valid XML response message received. \
                                 Propably wrong credentials supplied with HTTP header."
         end
 
         response
+      end
+
+      def parse_error_only_response(response, root)
+        error_code = REXML::XPath.first(root, "Number")
+        response[:ErrorCode] = error_code.text if error_code
+        response[:Message] = parse_error(root)
       end
 
       # Parse the <ProcessingStatus> Element which contains all important information

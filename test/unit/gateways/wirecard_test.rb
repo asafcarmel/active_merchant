@@ -13,7 +13,7 @@ class WirecardTest < Test::Unit::TestCase
     @credit_card = credit_card('4200000000000000')
     @declined_card = credit_card('4000300011112220')
     @unsupported_card = credit_card('4200000000000000', brand: :maestro)
-    @amex_card = credit_card('370000000000000', brand: "amex")
+    @amex_card = credit_card('370000000000000', brand: "american_express")
 
     @amount = 111
 
@@ -91,7 +91,7 @@ class WirecardTest < Test::Unit::TestCase
     assert_failure response
     assert response.test?
     assert_equal TEST_AUTHORIZATION_GUWID, response.authorization
-    assert_match /credit card number not allowed in demo mode/i, response.message
+    assert_match %r{credit card number not allowed in demo mode}i, response.message
     assert_equal '24997', response.params['ErrorCode']
   end
 
@@ -118,7 +118,7 @@ class WirecardTest < Test::Unit::TestCase
     assert response = @gateway.refund(@amount - 30, response.authorization, @options)
     assert_success response
     assert response.test?
-    assert_match /All good!/, response.message
+    assert_match %r{All good!}, response.message
   end
 
   def test_successful_void
@@ -131,7 +131,7 @@ class WirecardTest < Test::Unit::TestCase
     assert response = @gateway.void(response.authorization, @options)
     assert_success response
     assert response.test?
-    assert_match /Nice one!/, response.message
+    assert_match %r{Nice one!}, response.message
   end
 
   def test_successful_authorization_and_partial_capture
@@ -160,14 +160,14 @@ class WirecardTest < Test::Unit::TestCase
     @gateway.expects(:ssl_post).returns(failed_refund_response)
     assert response = @gateway.refund(@amount - 30, "TheIdentifcation", @options)
     assert_failure response
-    assert_match /Not prudent/, response.message
+    assert_match %r{Not prudent}, response.message
   end
 
   def test_failed_void
     @gateway.expects(:ssl_post).returns(failed_void_response)
     assert response = @gateway.refund(@amount - 30, "TheIdentifcation", @options)
     assert_failure response
-    assert_match /Not gonna do it/, response.message
+    assert_match %r{Not gonna do it}, response.message
   end
 
   def test_no_error_if_no_state_is_provided_in_address
@@ -220,14 +220,14 @@ class WirecardTest < Test::Unit::TestCase
     options = @options.merge(billing_address: @address_avs)
     @gateway.expects(:ssl_post).returns(failed_avs_response)
     response = @gateway.purchase(@amount, @credit_card, options)
-    assert_match /A/, response.avs_result["code"]
+    assert_match %r{A}, response.avs_result["code"]
   end
 
   def test_failed_amex_avs_response_code
     options = @options.merge(billing_address: @address_avs)
     @gateway.expects(:ssl_post).returns(failed_avs_response)
     response = @gateway.purchase(@amount, @amex_card, options)
-    assert_match /B/, response.avs_result["code"]
+    assert_match %r{B}, response.avs_result["code"]
   end
 
   def test_commerce_type_option
@@ -303,6 +303,15 @@ class WirecardTest < Test::Unit::TestCase
     assert response = @gateway.purchase(@amount, @credit_card, @options)
 
     assert_failure response
+  end
+
+  def test_system_error_response_without_job
+    @gateway.expects(:ssl_post).returns(system_error_response_without_job)
+    assert response = @gateway.purchase(@amount, @credit_card, @options)
+
+    assert_failure response
+    assert_equal "Job Refused", response.params["Message"]
+    assert_equal "10003", response.params["ErrorCode"]
   end
 
   private
@@ -660,6 +669,21 @@ class WirecardTest < Test::Unit::TestCase
             </CC_TRANSACTION>
           </FNC_CC_PURCHASE>
         </W_JOB>
+      </W_RESPONSE>
+    </WIRECARD_BXML>
+    XML
+  end
+
+  def system_error_response_without_job
+    <<-XML
+    <?xml version="1.0" encoding="UTF-8"?>
+    <WIRECARD_BXML xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance" xsi:noNamespaceSchemaLocation="wirecard.xsd">
+      <W_RESPONSE>
+        <ERROR>
+          <Type>SYSTEM_ERROR</Type>
+          <Number>10003</Number>
+          <Message>Job Refused</Message>
+        </ERROR>
       </W_RESPONSE>
     </WIRECARD_BXML>
     XML

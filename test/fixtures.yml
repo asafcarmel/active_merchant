@@ -11,17 +11,30 @@
 # Paste any required PEM certificates after the pem key.
 #
 
+adyen:
+  company: company
+  merchant: merchant
+  password: password
+
 app55:
   api_key: "QDtACYMCFqtuKOQ22QtCkGR1TzD7XM8i"
   api_secret: "yT1FRpuusBIQoEBIfIQ8bPStkl7yzdTz"
 
+# Working credentials, no need to replace
 authorize_net:
-  login: X
-  password: Y
+  login: 4Pf3E54zCsW
+  password: 337UTt4y6DB64ft8
 
 # Working credentials, no need to replace
 balanced:
   login: 'e1c5ad38d1c711e1b36c026ba7e239a9'
+
+# Bank Frick doesn't provide public testing data
+bank_frick:
+  sender: sender-uuid
+  channel: channel-uuid
+  userid: user-uuid
+  userpwd: password
 
 banwire:
   login: "desarrollo"
@@ -111,6 +124,18 @@ certo_direct:
   login: 1
   password: vP6OwK3
 
+checkout:
+  merchant_id: SBMTEST
+  password: Password1!
+
+# Contact Support at it_support@commercegate.com for credentials and offer/site
+commercegate:
+  login: "XXXXXXX"
+  password: "XXXXXXX"
+  site_id: "XXXXXXX"
+  offer_id: "XXXXXXX"
+  card_number: "XXXXXXXXXXXXXXXX"
+
 conekta:
   key: key_eYvWV7gSDkNYXsmr
 
@@ -185,8 +210,8 @@ first_giving:
   charity_id: "1234"
 
 first_pay:
-  login:
-  password:
+  transaction_center_id: 1264
+  gateway_id: "a91c38c3-7d7f-4d29-acc7-927b4dca0dbe"
 
 firstdata_e4:
   login:
@@ -197,6 +222,11 @@ garanti:
   terminal_id: 111995
   merchant_id: 600218
   password: "123qweASD"
+
+global_transport:
+  global_user_name: "USERNAME"
+  global_password: "PASSWORD"
+  term_type: "ABC"
 
 hdfc:
   login: LOGIN
@@ -335,7 +365,7 @@ nab_transact:
   password: changeit
 
 # Working credentials, no need to replace
-nab_transact_card_acceptor:
+nab_transact_privileged:
   login: XYZ0010
   password: abcd1234
 
@@ -377,9 +407,9 @@ openpay:
   merchant_id: 'mzdtln0bmtms6o3kck8f'
 
 optimal_payment:
-  login: test
+  store_id: test
   password: test
-  account: 'ACCOUNT_NUMBER'
+  account_number: ACCOUNTNUMBER
 
 orbital_gateway:
   login: LOGIN
@@ -705,7 +735,7 @@ trust_commerce:
 
 # Working credentials, no need to replace
 usa_epay:
-  login: 'yCaWGYQsSVR0S48B6AKMK07RQhaxHvGu'
+  login: '4EoZ5U2Q55j976W7eplC71i6b7kn4pcV'
 
 # Get credentials here: https://www.usaepay.com/developer/login
 usa_epay_advanced:
@@ -754,3 +784,8 @@ wirecard_checkout_page:
 world_pay_gateway:
   login: LOGIN
   password: PASSWORD
+
+worldpay_us:
+  acctid: MPNAB
+  subid: SPREE
+  merchantpin: "1234567890"

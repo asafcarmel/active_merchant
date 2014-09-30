@@ -87,6 +87,7 @@ The [ActiveMerchant Wiki](http://github.com/Shopify/active_merchant/wikis) conta
 * [Authorize.Net CIM](http://www.authorize.net/) - US
 * [Authorize.Net](http://www.authorize.net/) - AD, AT, AU, BE, BG, CA, CH, CY, CZ, DE, DK, ES, FI, FR, GB, GB, GI, GR, HU, IE, IT, LI, LU, MC, MT, NL, NO, PL, PT, RO, SE, SI, SK, SM, TR, US, VA
 * [Balanced](https://www.balancedpayments.com/) - US
+* [Bank Frick](http://www.bankfrickacquiring.com/) - LI, US
 * [Banwire](http://www.banwire.com/) - MX
 * [Barclays ePDQ Extra Plus](http://www.barclaycard.co.uk/business/accepting-payments/epdq-ecomm/) - GB
 * [Barclays ePDQ MPI](http://www.barclaycard.co.uk/business/accepting-payments/epdq-mpi/) - GB
@@ -101,6 +102,8 @@ The [ActiveMerchant Wiki](http://github.com/Shopify/active_merchant/wikis) conta
 * [Cashnet](http://www.higherone.com/) - US
 * [Cecabank](http://www.ceca.es/es/) - ES
 * [CertoDirect](http://www.certodirect.com/) - BE, BG, CZ, DK, DE, EE, IE, EL, ES, FR, IT, CY, LV, LT, LU, HU, MT, NL, AT, PL, PT, RO, SI, SK, FI, SE, GB
+* [Checkout.com](https://www.checkout.com/) - AT, BE, BG, CY, CZ, DE, DK, EE, ES, FI, FR, GR, HR, HU, IE, IS, IT, LI, LT, LU, LV, MT, MU, NL, NO, PL, PT, RO, SE, SI, SK, US
+* [Commercegate](http://www.commercegate.com/) - AD, AT, AX, BE, BG, CH, CY, CZ, DE, DK, ES, FI, FR, GB, GG, GI, GR, HR, HU, IE, IM, IS, IT, JE, LI, LT, LU, LV, MC, MT, NL, NO, PL, PT, RO, SE, SI, SK, VA
 * [Conekta](https://conekta.io) - MX
 * [CyberSource](http://www.cybersource.com) - US, BR, CA, CN, DK, FI, FR, DE, JP, MX, NO, SE, GB, SG
 * [DataCash](http://www.datacash.com/) - GB
@@ -114,10 +117,11 @@ The [ActiveMerchant Wiki](http://github.com/Shopify/active_merchant/wikis) conta
 * [Fat Zebra](https://www.fatzebra.com.au/) - AU
 * [Federated Canada](http://www.federatedcanada.com/) - CA
 * [Finansbank WebPOS](https://www.fbwebpos.com/) - US, TR
-* [First Pay](http://www.first-pay.com) - US
+* [1stPayGateway.Net](http://1stpaygateway.net/) - US
 * [FirstData Global Gateway e4](http://www.firstdata.com) - CA, US
 * [FirstGiving](http://www.firstgiving.com/) - US
 * [Garanti Sanal POS](https://sanalposweb.garanti.com.tr) - US, TR
+* [Global Transport](https://www.globalpaymentsinc.com) - CA, PR, US
 * [HDFC](http://www.hdfcbank.com/sme/sme-details/merchant-services/guzh6m0i) - IN
 * [Heartland Payment Systems](http://developer.heartlandpaymentsystems.com/SecureSubmit/) - US
 * [iATS Payments](http://home.iatspayments.com/) - AU, BR, CA, CH, DE, DK, ES, FI, FR, GR, HK, IE, IT, NL, NO, PT, SE, SG, TR, UK, US
@@ -168,7 +172,7 @@ The [ActiveMerchant Wiki](http://github.com/Shopify/active_merchant/wikis) conta
 * [Payscout](http://www.payscout.com/) - US
 * [Paystation](http://paystation.co.nz) - NZ
 * [Pay Way](http://www.payway.com.au) - AU
-* [Pin](http://www.pin.net.au/) - AU
+* [Pin Payments](http://www.pin.net.au/) - AU
 * [Plug'n Pay](http://www.plugnpay.com/) - US
 * [Psigate](http://www.psigate.com/) - CA
 * [PSL Payment Solutions](http://www.paymentsolutionsltd.com/) - GB
@@ -188,7 +192,7 @@ The [ActiveMerchant Wiki](http://github.com/Shopify/active_merchant/wikis) conta
 * [SkipJack](http://www.skipjack.com/) - US, CA
 * [SoEasyPay](http://www.soeasypay.com/) - US, CA, AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, GB, IS, NO, CH
 * [Spreedly](https://spreedly.com) - AD, AE, AT, AU, BD, BE, BG, BN, CA, CH, CY, CZ, DE, DK, EE, EG, ES, FI, FR, GB, GI, GR, HK, HU, ID, IE, IL, IM, IN, IS, IT, JO, KW, LB, LI, LK, LT, LU, LV, MC, MT, MU, MV, MX, MY, NL, NO, NZ, OM, PH, PL, PT, QA, RO, SA, SE, SG, SI, SK, SM, TR, TT, UM, US, VA, VN, ZA
-* [Stripe](https://stripe.com/) - US, CA, GB, AU, IE, FR, NL, BE, DE, ES
+* [Stripe](https://stripe.com/) - AU, BE, CA, CH, DE, ES, FI, FR, GB, IE, IT, LU, NL, US
 * [Swipe](https://www.swipehq.com/checkout) - CA, NZ
 * [TransFirst](http://www.transfirst.com/) - US
 * [NELiX TransaX](https://www.nelixtransax.com/) - US
@@ -201,7 +205,8 @@ The [ActiveMerchant Wiki](http://github.com/Shopify/active_merchant/wikis) conta
 * [WebPay](https://webpay.jp/) - JP
 * [WePay](https://www.wepay.com/) - US
 * [Wirecard](http://www.wirecard.com) - AD, CY, GI, IM, MT, RO, CH, AT, DK, GR, IT, MC, SM, TR, BE, EE, HU, LV, NL, SK, GB, BG, FI, IS, LI, NO, SI, VA, FR, IL, LT, PL, ES, CZ, DE, IE, LU, PT, SE
-* [WorldPay](http://www.worldpay.com/) - HK, US, GB, AU, AD, BE, CH, CY, CZ, DE, DK, ES, FI, FR, GI, GR, HU, IE, IL, IT, LI, LU, MC, MT, NL, NO, NZ, PL, PT, SE, SG, SI, SM, TR, UM, VA
+* [Worldpay](http://www.worldpay.com/) - HK, US, GB, AU, AD, BE, CH, CY, CZ, DE, DK, ES, FI, FR, GI, GR, HU, IE, IL, IT, LI, LU, MC, MT, NL, NO, NZ, PL, PT, SE, SG, SI, SM, TR, UM, VA
+* [Worldpay US](http://www.worldpay.com/us) - US
 
 ## Contributing
 

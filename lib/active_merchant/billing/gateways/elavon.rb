@@ -47,7 +47,7 @@ module ActiveMerchant #:nodoc:
         :refund => 'CCRETURN',
         :authorize => 'CCAUTHONLY',
         :capture => 'CCFORCE',
-        :void => 'CCVOID',
+        :void => 'CCDELETE',
         :store => 'CCGETTOKEN',
         :update => 'CCUPDATETOKEN',
       }
@@ -172,6 +172,12 @@ module ActiveMerchant #:nodoc:
         commit(:credit, money, form)
       end
 
+      def verify(credit_card, options = {})
+        MultiResponse.run(:use_first_response) do |r|
+          r.process { authorize(100, credit_card, options) }
+          r.process(:ignore_result) { void(r.authorization, options) }
+        end
+      end
 
       def store(creditcard, options = {})
         form = {}
@@ -331,7 +337,7 @@ module ActiveMerchant #:nodoc:
         resp = {}
         msg.split(self.delimiter).collect{|li|
             key, value = li.split("=")
-            resp[key.strip.gsub(/^ssl_/, '')] = value.to_s.strip
+            resp[key.to_s.strip.gsub(/^ssl_/, '')] = value.to_s.strip
           }
         resp
       end

@@ -6,12 +6,13 @@ module ActiveMerchant #:nodoc:
       self.live_url = "https://api.globalgatewaye4.firstdata.com/transaction/v11"
 
       TRANSACTIONS = {
-        :sale          => "00",
-        :authorization => "01",
-        :capture       => "32",
-        :void          => "33",
-        :credit        => "34",
-        :store         => "05"
+        sale:          "00",
+        authorization: "01",
+        verify:        "05",
+        capture:       "32",
+        void:          "33",
+        credit:        "34",
+        store:         "05"
       }
 
       POST_HEADERS = {
@@ -74,6 +75,10 @@ module ActiveMerchant #:nodoc:
         commit(:credit, build_capture_or_credit_request(money, authorization, options))
       end
 
+      def verify(credit_card, options = {})
+        commit(:verify, build_sale_or_authorization_request(0, credit_card, options))
+      end
+
       # Tokenize a credit card with TransArmor
       #
       # The TransArmor token and other card data necessary for subsequent
@@ -129,6 +134,7 @@ module ActiveMerchant #:nodoc:
 
         add_customer_data(xml, options)
         add_invoice(xml, options)
+        add_card_authentication_data(xml, options)
 
         xml.target!
       end
@@ -139,6 +145,7 @@ module ActiveMerchant #:nodoc:
         add_identification(xml, identification)
         add_amount(xml, money)
         add_customer_data(xml, options)
+        add_card_authentication_data(xml, options)
 
         xml.target!
       end
@@ -173,12 +180,17 @@ module ActiveMerchant #:nodoc:
       end
 
       def add_credit_card(xml, credit_card, options)
-        xml.tag! "Card_Number", credit_card.number
-        xml.tag! "Expiry_Date", expdate(credit_card)
-        xml.tag! "CardHoldersName", credit_card.name
-        xml.tag! "CardType", card_type(credit_card.brand)
 
-        add_credit_card_verification_strings(xml, credit_card, options)
+        if credit_card.respond_to?(:track_data) && credit_card.track_data.present?
+          xml.tag! "Track1", credit_card.track_data
+        else
+          xml.tag! "Card_Number", credit_card.number
+          xml.tag! "Expiry_Date", expdate(credit_card)
+          xml.tag! "CardHoldersName", credit_card.name
+          xml.tag! "CardType", card_type(credit_card.brand)
+
+          add_credit_card_verification_strings(xml, credit_card, options)
+        end
       end
 
       def add_credit_card_verification_strings(xml, credit_card, options)
@@ -193,6 +205,12 @@ module ActiveMerchant #:nodoc:
           xml.tag! "CVD_Presence_Ind", "1"
           xml.tag! "VerificationStr2", credit_card.verification_value
         end
+      end
+
+      def add_card_authentication_data(xml, options)
+        xml.tag! "CAVV", options[:cavv]
+        xml.tag! "XID", options[:xid]
+        xml.tag! "Ecommerce_Flag", options[:eci]
       end
 
       def add_credit_card_token(xml, store_authorization)
