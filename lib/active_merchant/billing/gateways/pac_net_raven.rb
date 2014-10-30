@@ -25,7 +25,7 @@ module ActiveMerchant #:nodoc:
         'cvv2_not_checked' => 'X'
       }
 
-      self.test_url = 'https://demo.pacnetservices.com/realtime/'
+      self.test_url = 'https://raven.pacnetservices.com/realtime/' # 'https://demo.pacnetservices.com/realtime/'
       self.live_url = 'https://raven.pacnetservices.com/realtime/'
 
       self.supported_countries = ['US']
@@ -38,6 +38,7 @@ module ActiveMerchant #:nodoc:
       def initialize(options = {})
         requires!(options, :user, :secret, :prn)
         super
+        @ssl_version = :TLSv1
       end
 
       def authorize(money, creditcard, options = {})
